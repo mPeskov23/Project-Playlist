@@ -1,3 +1,4 @@
 #not-registered:hover{
     cursor: pointer;
+    text-decoration: underline;
 }

@@ -13,3 +13,19 @@ document.addEventListener("DOMContentLoaded", function() {
         app.classList.add("container");
     }
 });
+
+function login(){
+    const input_login = document.querySelector("#input-login");
+    const input_password = document.querySelector("#input-password");
+    const userName = input_login.textContent;
+    const password = input_password.textContent;
+    if(checkUsername(userName)){
+        if(checkPassword(password)){
+
+        }
+    }
+}
+
+function checkUsername(username){
+    
+}
