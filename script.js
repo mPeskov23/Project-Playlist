@@ -1,16 +1,6 @@
-let loggedIn = false;
-let usersData = undefined;
+let fullData = await getFullData();
 
-checkLoginState();
-
-async function checkLoginState() {
-    usersData = await getUsersData();
-    if (loggedIn) {
-        showApplication();
-    } else {
-        showLoginForm();
-    }
-}
+showLoginForm();
 
 function showApplication() {
     const app = document.querySelector("#app");
@@ -33,19 +23,18 @@ function showLoginForm() {
     
     loginForm.classList.remove("d-none");
     loginForm.classList.add("container");
-
-    console.log(usersData);
     
     login();
 }
 
 function login() {
-    let login = document.querySelector("#input-login");
-    let password = document.querySelector("#input-password");
-    
+    let login = document.querySelector("#input-login").textContent;
+    let password = document.querySelector("#input-password").textContent;
+    let userData = undefined;
+    for
 }
 
-async function getUsersData() {
+async function getFullData() {
     const response = await fetch("http://localhost:3000/users");
     const data = await response.json();
     return data;
