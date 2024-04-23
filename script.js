@@ -9,12 +9,12 @@ while(true){
         app.classList.add("container");
         loginForm.classList.remove("container");
         loginForm.classList.add("d-none");
-        application();
+        application(userData);
     } else{
         loginForm.classList.remove("d-none")
         loginForm.classList.add("container");
         app.classList.remove("container");
         app.classList.add("d-none");
-        loginForm()
+        login();
     }
 }
