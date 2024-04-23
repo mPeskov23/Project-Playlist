@@ -14,16 +14,21 @@
   </head>
   <body>
     <section class="d-none" id="app">
-      <div>LIST</div>
-      <div>FORM</div>
+      <div id="list-songs"></div>
+      <form id="form-submit">
+        <input type="text" name = "Title" id = "input-title" placeholder="Title" required>
+        <input type="text" name = "Artist" id="input-artist" placeholder="Artist" required>
+        <input type="text" name="Genre" id="input-genre" placeholder="Genre" required>
+        <button type="submit">Submit</button>
+      </form>
     </section>
     <section class="d-none" id="form-login-div">
       <form id="form-login">
         <div class="row">
-          <input type="text" name="Login" id="input-login" required />
+          <input type="text" name="Login" id="input-login" placeholder="Username" required />
         </div>
         <div class="row">
-          <input type="password" name="Password" id="input-password" required />
+          <input type="password" name="Password" id="input-password" placeholder="Password" required />
         </div>
         <div class="row"><button type="submit">Log In</button></div>
         <div class="row">
