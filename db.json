@@ -1,1 +1,66 @@
-{ "users": [{ "id": "1", "username": "admin", "password": "admin", "songs": [] }] }
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "admin",
+      "password": "admin",
+      "songs": [
+        {
+          "title": "Title 1",
+          "artist": "Artist 1",
+          "genre": "Genre 1"
+        },
+        {
+          "title": "Title 2",
+          "artist": "Artist 2",
+          "genre": "Genre 2"
+        },
+        {
+          "title": "Title 3",
+          "artist": "Artist 3",
+          "genre": "Genre 3"
+        },
+        {
+          "title": "Title 4",
+          "artist": "Artist 4",
+          "genre": "Genre 4"
+        },
+        {
+          "title": "Title 5",
+          "artist": "Artist 5",
+          "genre": "Genre 5"
+        },
+        {
+          "title": "Title 6",
+          "artist": "Artist 6",
+          "genre": "Genre 6"
+        },
+        {
+          "title": "Title 7",
+          "artist": "Artist 7",
+          "genre": "Genre 7"
+        },
+        {
+          "title": "Title 8",
+          "artist": "Artist 8",
+          "genre": "Genre 8"
+        },
+        {
+          "title": "Title 9",
+          "artist": "Artist 9",
+          "genre": "Genre 9"
+        },
+        {
+          "title": "Title 10",
+          "artist": "Artist 10",
+          "genre": "Genre 10"
+        },
+        {
+          "title": "Title 11",
+          "artist": "Artist 11",
+          "genre": "Genre 11"
+        }
+      ]
+    }
+  ]
+}
