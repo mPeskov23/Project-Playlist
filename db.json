@@ -29,20 +29,7 @@
       "id": "3",
       "username": "mpeskov",
       "password": "12345",
-      "songs": [
-        {
-          "id": "1",
-          "title": "uhjok",
-          "artist": "sdfs",
-          "genre": "Rock"
-        },
-        {
-          "id": "2",
-          "title": "uhuij",
-          "artist": "qwerty",
-          "genre": "Hip-hop"
-        }
-      ]
+      "songs": []
     }
   ]
 }

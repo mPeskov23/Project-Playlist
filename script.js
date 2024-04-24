@@ -1,14 +1,14 @@
 let fullData = undefined;
-class Song{
-    id = undefined;
-    #title = undefined;
-    #artist = undefined;
-    #genre = undefined;
-    constructor(title, artist, genre){
-        this.title = title;
-        this.artist = artist;
-        this.genre = genre;
-    }
+class Song {
+  id = undefined;
+  #title = undefined;
+  #artist = undefined;
+  #genre = undefined;
+  constructor(title, artist, genre) {
+    this.title = title;
+    this.artist = artist;
+    this.genre = genre;
+  }
 }
 
 async function initialize() {
@@ -16,13 +16,12 @@ async function initialize() {
   showLoginForm();
 }
 
-
 initialize();
 
 function showApplication(userData) {
   const app = document.querySelector("#app");
   const loginForm = document.querySelector("#form-login-div");
-  const regForm = document.querySelector("#form-reg-div")
+  const regForm = document.querySelector("#form-reg-div");
   const listSongs = document.querySelector("#list-songs");
   const submitSongForm = document.querySelector("#form-submit");
   submitSongForm.addEventListener("submit", (event) => {
@@ -41,19 +40,19 @@ function showApplication(userData) {
   regForm.classList.add("d-none");
 
   let songs = userData.songs;
-  if(songs.length === 0){
-    let noSongNotification = document.createElement('p');
-    noSongNotification.textContent = "There are no songs here yet, try adding some!";
+  if (songs.length === 0) {
+    let noSongNotification = document.createElement("p");
+    noSongNotification.textContent =
+      "There are no songs here yet, try adding some!";
     listSongs.appendChild(noSongNotification);
-  } else{
-    for(let song of songs){
-        let songCard = document.createElement('div');
-        songCard.innerHTML = getSongCard(song);
-        songCard.classList.add("bg-orange");
-        listSongs.appendChild(songCard);
+  } else {
+    for (let song of songs) {
+      let songCard = document.createElement("div");
+      songCard.innerHTML = getSongCard(song, userData);
+      songCard.classList.add("bg-orange");
+      listSongs.appendChild(songCard);
     }
   }
-
 }
 
 function showLoginForm() {
@@ -110,7 +109,7 @@ async function getFullData() {
   return data;
 }
 
-function getSongCard(song){
+function getSongCard(song, userData) {
   return `
       <div class="card mb-3" id="song-${song.id}">
           <div class="card-body">
@@ -118,51 +117,59 @@ function getSongCard(song){
               <p class="card-text">
                   <strong>Artist:</strong> ${song.artist}<br>
                   <strong>Genre:</strong> ${song.genre}
-                  <button type="button" class="btn btn-primary btn-sm" onclick="editSong('${song.id}')">Edit</button>
-                  <button type="button" class="btn btn-danger btn-sm" onclick="deleteSong('${song.id}')">Delete</button>
+                  <button type="button" class="btn btn-primary btn-sm" onclick="editSong('${
+                    song.id
+                  }', '${encodeURIComponent(
+    JSON.stringify(userData)
+  )}')">Edit</button>
+                  <button type="button" class="btn btn-danger btn-sm" onclick="deleteSong('${
+                    song.id
+                  }', '${encodeURIComponent(
+    JSON.stringify(userData)
+  )}')">Delete</button>
               </p>
           </div>
       </div>
   `;
 }
 
-function getSongData(){
-    const titleElement = document.querySelector("#input-title");
-    const artistElement = document.querySelector("#input-artist");
-    const genreElement = document.querySelector("#input-genre");
-    const title = titleElement.value;
-    const artist = artistElement.value;
-    const genre = genreElement.value;
-    let song = new Song(title, artist, genre);
-    titleElement.value = "";
-    artistElement.value = "";
-    genreElement.value = "";
-    return song;
+function getSongData() {
+  const titleElement = document.querySelector("#input-title");
+  const artistElement = document.querySelector("#input-artist");
+  const genreElement = document.querySelector("#input-genre");
+  const title = titleElement.value;
+  const artist = artistElement.value;
+  const genre = genreElement.value;
+  let song = new Song(title, artist, genre);
+  titleElement.value = "";
+  artistElement.value = "";
+  genreElement.value = "";
+  return song;
 }
 
-async function submitSong(event, userData, song){
-    event.preventDefault();
-    console.log(userData.songs.length)
-    if (userData.songs.length > 0) {
-      console.log(userData.songs.length > 0);
-      const lastID = userData.songs[userData.songs.length - 1].id;
-      song.id = String(Number(lastID) + 1);
-    } else{
-      console.log(userData.songs.length > 0);
-      song.id = "1";
-    }
-    userData.songs.push(song);
-    await fetch(`http://localhost:3000/users/${userData.id}`, {
-      method: 'PUT',
-      body: JSON.stringify(userData),
-    });
-    const listSongs = document.querySelector("#list-songs");
-    const songCard = document.createElement('div');
-    songCard.innerHTML = getSongCard(song);
-    listSongs.appendChild(songCard);
+async function submitSong(event, userData, song) {
+  event.preventDefault();
+  console.log(userData.songs.length);
+  if (userData.songs.length > 0) {
+    console.log(userData.songs.length > 0);
+    const lastID = userData.songs[userData.songs.length - 1].id;
+    song.id = String(Number(lastID) + 1);
+  } else {
+    console.log(userData.songs.length > 0);
+    song.id = "1";
+  }
+  userData.songs.push(song);
+  await fetch(`http://localhost:3000/users/${userData.id}`, {
+    method: "PUT",
+    body: JSON.stringify(userData),
+  });
+  const listSongs = document.querySelector("#list-songs");
+  const songCard = document.createElement("div");
+  songCard.innerHTML = getSongCard(song);
+  listSongs.appendChild(songCard);
 }
 
-function showRegisterForm(){
+function showRegisterForm() {
   const app = document.querySelector("#app");
   const loginForm = document.querySelector("#form-login-div");
   const regFormDiv = document.querySelector("#form-reg-div");
@@ -180,48 +187,82 @@ function showRegisterForm(){
   regForm.addEventListener("submit", (event) => {
     event.preventDefault();
     checkRegData();
-  })
+  });
 }
 
-function checkRegData(){
+function checkRegData() {
   const loginElement = document.querySelector("#input-login-reg");
   const passwordElement = document.querySelector("#input-password-reg");
-  const confirmationElement = document.querySelector("#input-password-confirmation");
+  const confirmationElement = document.querySelector(
+    "#input-password-confirmation"
+  );
   const login = loginElement.value;
   const password = passwordElement.value;
   const confirmation = confirmationElement.value;
-  if(checkLoginAvailability(login)){
-    if(password === confirmation){
+  if (checkLoginAvailability(login)) {
+    if (password === confirmation) {
       registerUser(login, password);
-    } else{
+    } else {
       alert("Passwords don't match");
     }
-  }else{
+  } else {
     alert("The username is already taken");
     loginElement.value = "";
   }
 }
 
-async function registerUser(login, password){
+async function registerUser(login, password) {
   const lastId = fullData[fullData.length - 1].id;
   const newId = String(Number(lastId) + 1);
-  const user = {"id" : newId, "username":login, "password":password, "songs":[]};
+  const user = { id: newId, username: login, password: password, songs: [] };
   await addToDatabase(user);
   initialize();
 }
 
-async function addToDatabase(user){
+async function addToDatabase(user) {
   await fetch("http://localhost:3000/users", {
-        method: 'POST',
-        body: JSON.stringify(user)
-    });
+    method: "POST",
+    body: JSON.stringify(user),
+  });
 }
 
-function checkLoginAvailability(login){
-  for(let user of fullData){
-    if(user.username === login){
+function checkLoginAvailability(login) {
+  for (let user of fullData) {
+    if (user.username === login) {
       return false;
     }
   }
   return true;
+}
+
+async function deleteSong(songId, userDataString) {
+  try {
+    let userData = JSON.parse(decodeURIComponent(userDataString));
+
+    userData.songs = userData.songs.filter((song) => song.id !== songId);
+
+    await fetch(`http://localhost:3000/users/${userData.id}`, {
+      method: "PUT",
+      body: JSON.stringify(userData),
+    });
+
+    const listSongs = document.querySelector("#list-songs");
+    listSongs.innerHTML = "";
+
+    if (userData.songs.length === 0) {
+      let noSongNotification = document.createElement("p");
+      noSongNotification.textContent =
+        "There are no songs here yet, try adding some!";
+      listSongs.appendChild(noSongNotification);
+    } else {
+      for (let song of userData.songs) {
+        let songCard = document.createElement("div");
+        songCard.innerHTML = getSongCard(song, userData);
+        songCard.classList.add("bg-orange");
+        listSongs.appendChild(songCard);
+      }
+    }
+  } catch (error) {
+    console.error("Error deleting song:", error);
+  }
 }
