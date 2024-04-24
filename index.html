@@ -47,7 +47,23 @@
         </div>
         <div class="row"><button type="submit">Log In</button></div>
         <div class="row">
-          <span class="text-info" id="not-registered">Not registered yet?</span>
+          <span class="text-info" id="not-registered" onclick="showRegisterForm()">Not registered yet?</span>
+        </div>
+      </form>
+    </section>
+    <section class="d-none" id="form-reg-div">
+      <form id="form-reg">
+        <div class="row">
+          <input type="text" name="Login" id="input-login-reg" placeholder="Username" required />
+        </div>
+        <div class="row">
+          <input type="password" name="Password" id="input-password-reg" placeholder="Password" required />
+        </div>
+        <div class="row">
+          <input type="password" name="Password-Confirmation" id="input-password-confirmation" placeholder="Confirm your password" required />
+        </div>
+        <div class="row"><button type="submit">Register for free</button></div>
+        <div class="row">
         </div>
       </form>
     </section>

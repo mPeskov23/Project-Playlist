@@ -30,6 +30,7 @@ initialize();
 function showApplication(userData) {
   const app = document.querySelector("#app");
   const loginForm = document.querySelector("#form-login-div");
+  const regForm = document.querySelector("#form-reg-div")
   const listSongs = document.querySelector("#list-songs");
   const submitSongForm = document.querySelector("#form-submit");
   submitSongForm.addEventListener("submit", (event) => {
@@ -43,6 +44,9 @@ function showApplication(userData) {
 
   loginForm.classList.remove("container");
   loginForm.classList.add("d-none");
+
+  regForm.classList.remove("container");
+  regForm.classList.add("d-none");
 
   let songs = userData.songs;
   if(songs.length === 0){
@@ -63,12 +67,16 @@ function showApplication(userData) {
 function showLoginForm() {
   const app = document.querySelector("#app");
   let loginForm = document.querySelector("#form-login-div");
+  const regForm = document.querySelector("#form-reg-div");
 
   app.classList.remove("container");
   app.classList.add("d-none");
 
   loginForm.classList.remove("d-none");
   loginForm.classList.add("container");
+
+  regForm.classList.remove("container");
+  regForm.classList.add("d-none");
 
   loginForm = document.querySelector("#form-login");
   loginForm.addEventListener("submit", (event) => {
@@ -90,17 +98,18 @@ function login(event) {
       if (fullData[i].password === password) {
         userData = fullData[i];
         showApplication(userData);
-        break;
+        return;
       } else {
         inputPassword.value = "";
         alert("Incorrect password");
+        return;
       }
-    } else {
-      inputLogin.value = "";
-      inputPassword.value = "";
-      alert("Incorrect username");
     }
   }
+
+  inputLogin.value = "";
+  inputPassword.value = "";
+  alert("Incorrect username");
 }
 
 async function getFullData() {
@@ -151,4 +160,68 @@ async function submitSong(event, userData, song){
     songCard.innerHTML = getSongCard(song);
     songCard.classList.add("bg-orange");
     listSongs.appendChild(songCard);
+}
+
+function showRegisterForm(){
+  const app = document.querySelector("#app");
+  const loginForm = document.querySelector("#form-login-div");
+  const regFormDiv = document.querySelector("#form-reg-div");
+
+  app.classList.remove("container");
+  app.classList.add("d-none");
+
+  loginForm.classList.remove("container");
+  loginForm.classList.add("d-none");
+
+  regFormDiv.classList.remove("d-none");
+  regFormDiv.classList.add("container");
+
+  const regForm = document.querySelector("#form-reg");
+  regForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    checkRegData();
+  })
+}
+
+function checkRegData(){
+  const loginElement = document.querySelector("#input-login-reg");
+  const passwordElement = document.querySelector("#input-password-reg");
+  const confirmationElement = document.querySelector("#input-password-confirmation");
+  const login = loginElement.value;
+  const password = passwordElement.value;
+  const confirmation = confirmationElement.value;
+  if(checkLoginAvailability(login)){
+    if(password === confirmation){
+      registerUser(login, password);
+    } else{
+      alert("Passwords don't match");
+    }
+  }else{
+    alert("The username is already taken");
+    loginElement.value = "";
+  }
+}
+
+async function registerUser(login, password){
+  const lastId = fullData[fullData.length - 1].id;
+  const newId = Number(lastId) + 1;
+  const user = {"id" : newId, "username":login, "password":password, "songs":[]};
+  await addToDatabase(user);
+  initialize();
+}
+
+async function addToDatabase(user){
+  await fetch("http://localhost:3000/users", {
+        method: 'POST',
+        body: JSON.stringify(user)
+    });
+}
+
+function checkLoginAvailability(login){
+  for(let user of fullData){
+    if(user.username === login){
+      return false;
+    }
+  }
+  return true;
 }
