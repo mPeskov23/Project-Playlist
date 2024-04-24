@@ -1,5 +1,6 @@
 let fullData = undefined;
 class Song{
+    id = undefined;
     #title = undefined;
     #artist = undefined;
     #genre = undefined;
@@ -7,15 +8,6 @@ class Song{
         this.title = title;
         this.artist = artist;
         this.genre = genre;
-    }
-    getTitle(){
-        return this.title;
-    }
-    getArtist(){
-        return this.artist;
-    }
-    getGenre(){
-        return this.genre;
     }
 }
 
@@ -120,14 +112,14 @@ async function getFullData() {
 
 function getSongCard(song){
   return `
-      <div class="card mb-3">
+      <div class="card mb-3" id="song-${song.id}">
           <div class="card-body">
               <h5 class="card-title">${song.title}</h5>
               <p class="card-text">
                   <strong>Artist:</strong> ${song.artist}<br>
                   <strong>Genre:</strong> ${song.genre}
-                  <button type="button" class="btn btn-primary btn-sm" onclick="editSong()">Edit</button>
-                  <button type="button" class="btn btn-danger btn-sm" onclick="deleteSong()">Delete</button>
+                  <button type="button" class="btn btn-primary btn-sm" onclick="editSong('${song.id}')">Edit</button>
+                  <button type="button" class="btn btn-danger btn-sm" onclick="deleteSong('${song.id}')">Delete</button>
               </p>
           </div>
       </div>
@@ -150,15 +142,23 @@ function getSongData(){
 
 async function submitSong(event, userData, song){
     event.preventDefault();
+    console.log(userData.songs.length)
+    if (userData.songs.length > 0) {
+      console.log(userData.songs.length > 0);
+      const lastID = userData.songs[userData.songs.length - 1].id;
+      song.id = String(Number(lastID) + 1);
+    } else{
+      console.log(userData.songs.length > 0);
+      song.id = "1";
+    }
     userData.songs.push(song);
-    const updateResponse = await fetch(`http://localhost:3000/users/${userData.id}`, {
+    await fetch(`http://localhost:3000/users/${userData.id}`, {
       method: 'PUT',
       body: JSON.stringify(userData),
     });
     const listSongs = document.querySelector("#list-songs");
     const songCard = document.createElement('div');
     songCard.innerHTML = getSongCard(song);
-    songCard.classList.add("bg-orange");
     listSongs.appendChild(songCard);
 }
 
@@ -204,7 +204,7 @@ function checkRegData(){
 
 async function registerUser(login, password){
   const lastId = fullData[fullData.length - 1].id;
-  const newId = Number(lastId) + 1;
+  const newId = String(Number(lastId) + 1);
   const user = {"id" : newId, "username":login, "password":password, "songs":[]};
   await addToDatabase(user);
   initialize();
