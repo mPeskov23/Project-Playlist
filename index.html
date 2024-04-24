@@ -16,15 +16,30 @@
     <section class="d-none" id="app">
       <div id="list-songs"></div>
       <form id="form-submit">
-        <div class="form-group">
-            <label for="input-title">Title</label>
-            <input type="text" class="form-control" name="Title" id="input-title" placeholder="Title" required>
+        <div class="mb-3">
+          <label for="input-title" class="form-label">Title</label>
+          <input
+            type="text"
+            class="form-control"
+            name="Title"
+            id="input-title"
+            placeholder="Title"
+            required
+          />
         </div>
-        <div class="form-group">
-            <label for="input-artist">Artist</label>
-            <input type="text" class="form-control" name="Artist" id="input-artist" placeholder="Artist" required>
+        <div class="mb-3">
+          <label for="input-artist" class="form-label">Artist</label>
+          <input
+            type="text"
+            class="form-control"
+            name="Artist"
+            id="input-artist"
+            placeholder="Artist"
+            required
+          />
         </div>
-        <div class="form-group">
+        <div class="mb-3">
+          <label for="input-genre" class="form-label">Genre</label>
           <select class="form-control" name="Genre" id="input-genre" required>
             <option value="" selected disabled>Select Genre</option>
             <option value="Rock">Rock</option>
@@ -32,41 +47,88 @@
             <option value="Hip-hop">Hip-hop</option>
             <option value="Jazz">Jazz</option>
             <option value="Electronic">Electronic</option>
-        </select>
+          </select>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+      </form>
     </section>
+
     <section class="d-none" id="form-login-div">
       <form id="form-login">
-        <div class="row">
-          <input type="text" name="Login" id="input-login" placeholder="Username" required />
+        <div class="mb-3">
+          <input
+            type="text"
+            name="Login"
+            id="input-login"
+            class="form-control"
+            placeholder="Username"
+            required
+          />
         </div>
-        <div class="row">
-          <input type="password" name="Password" id="input-password" placeholder="Password" required />
+        <div class="mb-3">
+          <input
+            type="password"
+            name="Password"
+            id="input-password"
+            class="form-control"
+            placeholder="Password"
+            required
+          />
         </div>
-        <div class="row"><button type="submit">Log In</button></div>
-        <div class="row">
-          <span class="text-info" id="not-registered" onclick="showRegisterForm()">Not registered yet?</span>
+        <div class="mb-3">
+          <button type="submit" class="btn btn-secondary">Log In</button>
+        </div>
+        <div class="mb-3">
+          <span
+            class="text-info"
+            id="not-registered"
+            onclick="showRegisterForm()"
+            >Not registered yet?</span
+          >
         </div>
       </form>
     </section>
+
     <section class="d-none" id="form-reg-div">
       <form id="form-reg">
-        <div class="row">
-          <input type="text" name="Login" id="input-login-reg" placeholder="Username" required />
+        <div class="mb-3">
+          <input
+            type="text"
+            name="Login"
+            id="input-login-reg"
+            class="form-control"
+            placeholder="Username"
+            required
+          />
         </div>
-        <div class="row">
-          <input type="password" name="Password" id="input-password-reg" placeholder="Password" required />
+        <div class="mb-3">
+          <input
+            type="password"
+            name="Password"
+            id="input-password-reg"
+            class="form-control"
+            placeholder="Password"
+            required
+          />
         </div>
-        <div class="row">
-          <input type="password" name="Password-Confirmation" id="input-password-confirmation" placeholder="Confirm your password" required />
+        <div class="mb-3">
+          <input
+            type="password"
+            name="Password-Confirmation"
+            id="input-password-confirmation"
+            class="form-control"
+            placeholder="Confirm your password"
+            required
+          />
         </div>
-        <div class="row"><button type="submit">Register for free</button></div>
-        <div class="row">
+        <div class="mb-3">
+          <button type="submit" class="btn btn-secondary">
+            Register for free
+          </button>
         </div>
       </form>
     </section>
+
     <script src="script.js"></script>
   </body>
 </html>

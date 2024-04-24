@@ -4,7 +4,32 @@
       "id": "1",
       "username": "admin",
       "password": "admin",
-      "songs": []
+      "songs": [
+        {
+          "id": "9",
+          "title": "knj",
+          "artist": "asdasd",
+          "genre": "Electronic"
+        },
+        {
+          "id": "11",
+          "title": "dgmxioej",
+          "artist": "sogepfr",
+          "genre": "Hip-hop"
+        },
+        {
+          "id": "12",
+          "title": "laihfeijaeñkf",
+          "artist": "ñosdjkp9fjk",
+          "genre": "Pop"
+        },
+        {
+          "id": "13",
+          "title": "qqqqqqq",
+          "artist": "wwwwwwwwww",
+          "genre": "Electronic"
+        }
+      ]
     },
     {
       "id": "2",

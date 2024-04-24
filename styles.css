@@ -2,3 +2,89 @@
     cursor: pointer;
     text-decoration: underline;
 }
+body {
+    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+section {
+    width: 100%;
+    max-width: 30vh;
+    margin: 20px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.app{
+    width: 80%;
+    height: 80%;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #5a6268;
+}
+
+.form-control {
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    color: #495057;
+}
+
+#form-login-div{
+    width: 25%;
+}
+
+#form-reg-div{
+    width: 25%;
+}
+
+label {
+    color: #495057;
+    font-weight: bold;
+}
+
+.text-info {
+    color: #007bff;
+    cursor: pointer;
+}
+
+.card, .card-body {
+    margin: 0;
+    padding: 0;
+}
+
+.card {
+    height: auto;
+    overflow: hidden;
+}
+
+#list-songs {
+    min-height: 100vh;
+    overflow-y: auto;
+}
