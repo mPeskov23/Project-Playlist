@@ -53,6 +53,17 @@ function showApplication(userData) {
       listSongs.appendChild(songCard);
     }
   }
+  const deleteButtons = document.querySelectorAll(".delete-btn");
+  deleteButtons.forEach((button) => {
+    button.removeEventListener("click", (event) => {
+      const songId = button.dataset.songId;
+      deleteSong(songId, userData);
+    });
+    button.addEventListener("click", (event) => {
+      const songId = button.dataset.songId;
+      deleteSong(songId, userData);
+    });
+  });
 }
 
 function showLoginForm() {
@@ -117,17 +128,52 @@ function getSongCard(song, userData) {
               <p class="card-text">
                   <strong>Artist:</strong> ${song.artist}<br>
                   <strong>Genre:</strong> ${song.genre}
-                  <button type="button" class="btn btn-primary btn-sm" onclick="editSong('${
-                    song.id
-                  }', '${encodeURIComponent(
-    JSON.stringify(userData)
-  )}')">Edit</button>
-                  <button type="button" class="btn btn-danger btn-sm" onclick="deleteSong('${
-                    song.id
-                  }', '${encodeURIComponent(
-    JSON.stringify(userData)
-  )}')">Delete</button>
               </p>
+              <div id="edit-form-${song.id}" class="d-none">
+                  <div class="form-group">
+                      <input type="text" class="form-control" id="edit-title-${
+                        song.id
+                      }" value="${song.title}" placeholder="Title">
+                  </div>
+                  <div class="form-group">
+                      <input type="text" class="form-control" id="edit-artist-${
+                        song.id
+                      }" value="${song.artist}" placeholder="Artist">
+                  </div>
+                  <div class="form-group">
+                      <select class="form-control" id="edit-genre-${song.id}">
+                          <option value="Rock" ${
+                            song.genre === "Rock" ? "selected" : ""
+                          }>Rock</option>
+                          <option value="Pop" ${
+                            song.genre === "Pop" ? "selected" : ""
+                          }>Pop</option>
+                          <option value="Hip-hop" ${
+                            song.genre === "Hip-hop" ? "selected" : ""
+                          }>Hip-hop</option>
+                          <option value="Jazz" ${
+                            song.genre === "Jazz" ? "selected" : ""
+                          }>Jazz</option>
+                          <option value="Electronic" ${
+                            song.genre === "Electronic" ? "selected" : ""
+                          }>Electronic</option>
+                      </select>
+                  </div>
+                  <button type="button" class="btn btn-success btn-sm" onclick="saveSong('${
+                    song.id
+                  }', userData)">Save</button>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit('${
+                    song.id
+                  }')">Cancel</button>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm" data-song-id="${
+                song.id
+              }">Edit</button>
+
+              <button type="button" class="btn btn-danger btn-sm delete-btn" data-song-id="${
+                song.id
+              }">Delete</button>
+
           </div>
       </div>
   `;
@@ -167,6 +213,12 @@ async function submitSong(event, userData, song) {
   const songCard = document.createElement("div");
   songCard.innerHTML = getSongCard(song);
   listSongs.appendChild(songCard);
+  console.log(song.id)
+  let button = document.querySelector(`song-${song.id}`);
+  button.addEventListener("click", (event) => {
+    const songId = button.dataset.songId;
+    deleteSong(songId, userData);
+  });
 }
 
 function showRegisterForm() {
@@ -235,34 +287,77 @@ function checkLoginAvailability(login) {
   return true;
 }
 
-async function deleteSong(songId, userDataString) {
+async function deleteSong(songId, userData) {
+  console.log(userData);
+
+  userData.songs = userData.songs.filter((song) => song.id !== songId);
+
+  await fetch(`http://localhost:3000/users/${userData.id}`, {
+    method: "PUT",
+    body: JSON.stringify(userData),
+  });
+
+  const songCard = document.querySelector(`#song-${songId}`);
+  songCard.remove();
+
+  if (userData.songs.length === 0) {
+    let noSongNotification = document.createElement("p");
+    noSongNotification.textContent =
+      "There are no songs here yet, try adding some!";
+    const listSongs = document.querySelector("#list-songs");
+    listSongs.appendChild(noSongNotification);
+  }
+}
+
+function toggleEditForm(songId) {
+  const editForm = document.querySelector(`#edit-form-${songId}`);
+  editForm.classList.toggle("d-none");
+}
+
+function saveSong(songId, userData) {
+  console.log("Parsed userData:", userData);
+
+  const title = document.querySelector(`#edit-title-${songId}`).value;
+  const artist = document.querySelector(`#edit-artist-${songId}`).value;
+  const genre = document.querySelector(`#edit-genre-${songId}`).value;
+
+  const songIndex = userData.songs.findIndex((song) => song.id === songId);
+
+  if (songIndex !== -1) {
+    userData.songs[songIndex].title = title;
+    userData.songs[songIndex].artist = artist;
+    userData.songs[songIndex].genre = genre;
+
+    const card = document.querySelector(`#song-${songId}`);
+    card.querySelector(".card-title").textContent = title;
+    card.querySelector(".card-text").innerHTML = `
+        <strong>Artist:</strong> ${artist}<br>
+        <strong>Genre:</strong> ${genre}
+      `;
+    toggleEditForm(songId);
+
+    console.log("Updated userData:", userData);
+    updateUserData(userData);
+  }
+}
+
+function cancelEdit(songId) {
+  toggleEditForm(songId);
+}
+
+async function updateUserData(userData) {
   try {
-    let userData = JSON.parse(decodeURIComponent(userDataString));
-
-    userData.songs = userData.songs.filter((song) => song.id !== songId);
-
-    await fetch(`http://localhost:3000/users/${userData.id}`, {
+    const response = await fetch(`http://localhost:3000/users/${userData.id}`, {
       method: "PUT",
       body: JSON.stringify(userData),
     });
 
-    const listSongs = document.querySelector("#list-songs");
-    listSongs.innerHTML = "";
-
-    if (userData.songs.length === 0) {
-      let noSongNotification = document.createElement("p");
-      noSongNotification.textContent =
-        "There are no songs here yet, try adding some!";
-      listSongs.appendChild(noSongNotification);
-    } else {
-      for (let song of userData.songs) {
-        let songCard = document.createElement("div");
-        songCard.innerHTML = getSongCard(song, userData);
-        songCard.classList.add("bg-orange");
-        listSongs.appendChild(songCard);
-      }
+    if (!response.ok) {
+      throw new Error("Failed to update user data");
     }
+
+    console.log("Updated in database");
   } catch (error) {
-    console.error("Error deleting song:", error);
+    console.error("Error in updateUserData:", error);
   }
 }
