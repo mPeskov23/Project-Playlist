@@ -24,6 +24,7 @@ async function initialize() {
   showLoginForm();
 }
 
+
 initialize();
 
 function showApplication(userData) {
