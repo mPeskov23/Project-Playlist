@@ -16,11 +16,20 @@
     <section class="d-none" id="app">
       <div id="list-songs"></div>
       <form id="form-submit">
-        <input type="text" name = "Title" id = "input-title" placeholder="Title" required>
-        <input type="text" name = "Artist" id="input-artist" placeholder="Artist" required>
-        <input type="text" name="Genre" id="input-genre" placeholder="Genre" required>
-        <button type="submit">Submit</button>
-      </form>
+        <div class="form-group">
+            <label for="input-title">Title</label>
+            <input type="text" class="form-control" name="Title" id="input-title" placeholder="Title" required>
+        </div>
+        <div class="form-group">
+            <label for="input-artist">Artist</label>
+            <input type="text" class="form-control" name="Artist" id="input-artist" placeholder="Artist" required>
+        </div>
+        <div class="form-group">
+            <label for="input-genre">Genre</label>
+            <input type="text" class="form-control" name="Genre" id="input-genre" placeholder="Genre" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
     </section>
     <section class="d-none" id="form-login-div">
       <form id="form-login">

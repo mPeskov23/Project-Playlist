@@ -110,7 +110,19 @@ async function getFullData() {
 }
 
 function getSongCard(song){
-    return "<span>Title: " + song.title + " Artist: " + song.artist + " Genre: " + song.genre + "</span>";
+  return `
+      <div class="card mb-3">
+          <div class="card-body">
+              <h5 class="card-title">${song.title}</h5>
+              <p class="card-text">
+                  <strong>Artist:</strong> ${song.artist}<br>
+                  <strong>Genre:</strong> ${song.genre}
+                  <button type="button" class="btn btn-primary btn-sm" onclick="editSong()">Edit</button>
+                  <button type="button" class="btn btn-danger btn-sm" onclick="deleteSong()">Delete</button>
+              </p>
+          </div>
+      </div>
+  `;
 }
 
 function getSongData(){
