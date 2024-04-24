@@ -4,20 +4,7 @@
       "id": "1",
       "username": "admin",
       "password": "admin",
-      "songs": [
-        {
-          "id": "1",
-          "title": "akfioj",
-          "artist": "awdw",
-          "genre": "Rock"
-        },
-        {
-          "id": "2",
-          "title": "lijefioj",
-          "artist": "vvv",
-          "genre": "Electronic"
-        }
-      ]
+      "songs": []
     },
     {
       "id": "2",

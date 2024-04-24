@@ -214,7 +214,7 @@ async function submitSong(event, userData, song) {
   songCard.innerHTML = getSongCard(song);
   listSongs.appendChild(songCard);
   console.log(song.id)
-  let button = document.querySelector(`song-${song.id}`);
+  let button = document.querySelector(`#song-${song.id}`);
   button.addEventListener("click", (event) => {
     const songId = button.dataset.songId;
     deleteSong(songId, userData);
