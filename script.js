@@ -27,6 +27,7 @@ function showApplication(userData) {
   submitSongForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const song = getSongData();
+    console.log(userData);
     submitSong(event, userData, song);
   });
 
@@ -53,17 +54,7 @@ function showApplication(userData) {
       listSongs.appendChild(songCard);
     }
   }
-  const deleteButtons = document.querySelectorAll(".delete-btn");
-  deleteButtons.forEach((button) => {
-    button.removeEventListener("click", (event) => {
-      const songId = button.dataset.songId;
-      deleteSong(songId, userData);
-    });
-    button.addEventListener("click", (event) => {
-      const songId = button.dataset.songId;
-      deleteSong(songId, userData);
-    });
-  });
+  magicWithButtons(userData);
 }
 
 function showLoginForm() {
@@ -166,9 +157,7 @@ function getSongCard(song, userData) {
                     song.id
                   }')">Cancel</button>
               </div>
-              <button type="button" class="btn btn-primary btn-sm" data-song-id="${
-                song.id
-              }">Edit</button>
+              <button type="button" class="btn btn-primary btn-sm" edit-btn>Edit</button>
 
               <button type="button" class="btn btn-danger btn-sm delete-btn" data-song-id="${
                 song.id
@@ -195,13 +184,10 @@ function getSongData() {
 
 async function submitSong(event, userData, song) {
   event.preventDefault();
-  console.log(userData.songs.length);
   if (userData.songs.length > 0) {
-    console.log(userData.songs.length > 0);
     const lastID = userData.songs[userData.songs.length - 1].id;
     song.id = String(Number(lastID) + 1);
   } else {
-    console.log(userData.songs.length > 0);
     song.id = "1";
   }
   userData.songs.push(song);
@@ -213,12 +199,7 @@ async function submitSong(event, userData, song) {
   const songCard = document.createElement("div");
   songCard.innerHTML = getSongCard(song);
   listSongs.appendChild(songCard);
-  console.log(song.id);
-  let button = document.querySelector(`#song-${song.id}`);
-  button.addEventListener("click", (event) => {
-    const songId = button.dataset.songId;
-    deleteSong(songId, userData);
-  });
+  magicWithButtons(userData);
 }
 
 function showRegisterForm() {
@@ -288,7 +269,6 @@ function checkLoginAvailability(login) {
 }
 
 async function deleteSong(songId, userData) {
-  console.log(userData);
 
   userData.songs = userData.songs.filter((song) => song.id !== songId);
 
@@ -314,32 +294,6 @@ function toggleEditForm(songId) {
   editForm.classList.toggle("d-none");
 }
 
-function saveSong(songId, userData) {
-  console.log("Parsed userData:", userData);
-
-  const title = document.querySelector(`#edit-title-${songId}`).value;
-  const artist = document.querySelector(`#edit-artist-${songId}`).value;
-  const genre = document.querySelector(`#edit-genre-${songId}`).value;
-
-  const songIndex = userData.songs.findIndex((song) => song.id === songId);
-
-  if (songIndex !== -1) {
-    userData.songs[songIndex].title = title;
-    userData.songs[songIndex].artist = artist;
-    userData.songs[songIndex].genre = genre;
-
-    const card = document.querySelector(`#song-${songId}`);
-    card.querySelector(".card-title").textContent = title;
-    card.querySelector(".card-text").innerHTML = `
-        <strong>Artist:</strong> ${artist}<br>
-        <strong>Genre:</strong> ${genre}
-      `;
-    toggleEditForm(songId);
-
-    console.log("Updated userData:", userData);
-    updateUserData(userData);
-  }
-}
 
 function cancelEdit(songId) {
   toggleEditForm(songId);
@@ -356,8 +310,74 @@ async function updateUserData(userData) {
       throw new Error("Failed to update user data");
     }
 
-    console.log("Updated in database");
   } catch (error) {
     console.error("Error in updateUserData:", error);
   }
+}
+
+function editSong(songId, userData) {
+  const songIndex = userData.songs.findIndex((song) => song.id === songId);
+
+  if (songIndex !== -1) {
+    const song = userData.songs[songIndex];
+
+    // Populate the edit form with the current song details
+    document.querySelector(`#edit-title-${songId}`).value = song.title;
+    document.querySelector(`#edit-artist-${songId}`).value = song.artist;
+    document.querySelector(`#edit-genre-${songId}`).value = song.genre;
+
+    // Display the edit form
+    toggleEditForm(songId);
+  }
+}
+
+function saveSong(songId, userData) {
+  const songIndex = userData.songs.findIndex((song) => song.id === songId);
+
+  if (songIndex !== -1) {
+    const title = document.querySelector(`#edit-title-${songId}`).value;
+    const artist = document.querySelector(`#edit-artist-${songId}`).value;
+    const genre = document.querySelector(`#edit-genre-${songId}`).value;
+
+    userData.songs[songIndex].title = title;
+    userData.songs[songIndex].artist = artist;
+    userData.songs[songIndex].genre = genre;
+
+    updateUserData(userData);
+
+    const card = document.querySelector(`#song-${songId}`);
+    card.querySelector(".card-title").textContent = title;
+    card.querySelector(".card-text").innerHTML = `
+        <strong>Artist:</strong> ${artist}<br>
+        <strong>Genre:</strong> ${genre}
+    `;
+
+    // Hide the edit form
+    toggleEditForm(songId);
+  }
+}
+
+function magicWithButtons(userData){
+  const deleteButtons = document.querySelectorAll(".delete-btn");
+  deleteButtons.forEach((button) => {
+    button.removeEventListener("click", (event) => {
+      const songId = button.dataset.songId;
+      deleteSong(songId, userData);
+    });
+    button.addEventListener("click", (event) => {
+      const songId = button.dataset.songId;
+      deleteSong(songId, userData);
+    });
+  });
+  const editButtons = document.querySelectorAll(".edit-btn");
+  editButtons.forEach((button) => {
+    button.removeEventListener("click", (event) => {
+      const songId = button.dataset.songId;
+      editSong(songId, userData);
+    });
+    button.addEventListener("click", (event) => {
+      const songId = button.dataset.songId;
+      editSong(songId, userData);
+    });
+  });
 }
