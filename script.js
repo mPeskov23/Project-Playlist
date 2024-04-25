@@ -121,53 +121,32 @@ function getSongCard(song, userData) {
                   <strong>Genre:</strong> ${song.genre}
               </p>
               <div id="edit-form-${song.id}" class="d-none">
-                  <div class="form-group">
-                      <input type="text" class="form-control" id="edit-title-${
-                        song.id
-                      }" value="${song.title}" placeholder="Title">
+                  <div class="mb-3">
+                      <input type="text" class="form-control" id="edit-title-${song.id}" value="${song.title}" placeholder="Title">
                   </div>
-                  <div class="form-group">
-                      <input type="text" class="form-control" id="edit-artist-${
-                        song.id
-                      }" value="${song.artist}" placeholder="Artist">
+                  <div class="mb-3">
+                      <input type="text" class="form-control" id="edit-artist-${song.id}" value="${song.artist}" placeholder="Artist">
                   </div>
-                  <div class="form-group">
+                  <div class="mb-3">
                       <select class="form-control" id="edit-genre-${song.id}">
-                          <option value="Rock" ${
-                            song.genre === "Rock" ? "selected" : ""
-                          }>Rock</option>
-                          <option value="Pop" ${
-                            song.genre === "Pop" ? "selected" : ""
-                          }>Pop</option>
-                          <option value="Hip-hop" ${
-                            song.genre === "Hip-hop" ? "selected" : ""
-                          }>Hip-hop</option>
-                          <option value="Jazz" ${
-                            song.genre === "Jazz" ? "selected" : ""
-                          }>Jazz</option>
-                          <option value="Electronic" ${
-                            song.genre === "Electronic" ? "selected" : ""
-                          }>Electronic</option>
+                          <option value="Rock" ${song.genre === 'Rock' ? 'selected' : ''}>Rock</option>
+                          <option value="Pop" ${song.genre === 'Pop' ? 'selected' : ''}>Pop</option>
+                          <option value="Hip-hop" ${song.genre === 'Hip-hop' ? 'selected' : ''}>Hip-hop</option>
+                          <option value="Jazz" ${song.genre === 'Jazz' ? 'selected' : ''}>Jazz</option>
+                          <option value="Electronic" ${song.genre === 'Electronic' ? 'selected' : ''}>Electronic</option>
                       </select>
                   </div>
                   <button type="button" class="btn btn-success btn-sm save-btn">Save</button>
-                  <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit('${
-                    song.id
-                  }')">Cancel</button>
+                  <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit('${song.id}')">Cancel</button>
               </div>
-              <button type="button" class="btn btn-primary btn-sm edit-btn" data-song-id="${
-                song.id
-              }">Edit</button>
-
-
-              <button type="button" class="btn btn-danger btn-sm delete-btn" data-song-id="${
-                song.id
-              }">Delete</button>
-
+              <button type="button" class="btn btn-primary btn-sm edit-btn" data-song-id="${song.id}">Edit</button>
+              <button type="button" class="btn btn-danger btn-sm delete-btn" data-song-id="${song.id}">Delete</button>
           </div>
       </div>
   `;
 }
+
+ 
 
 function getSongData() {
   const titleElement = document.querySelector("#input-title");
