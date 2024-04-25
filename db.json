@@ -5,12 +5,6 @@
       "username": "admin",
       "password": "admin",
       "songs": [
-        {
-          "id": "1",
-          "title": "hb",
-          "artist": "1jn",
-          "genre": "Pop"
-        }
       ]
     },
     {
