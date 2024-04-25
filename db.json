@@ -4,7 +4,14 @@
       "id": "1",
       "username": "admin",
       "password": "admin",
-      "songs": []
+      "songs": [
+        {
+          "id": "2",
+          "title": "yjbjnkm",
+          "artist": "ijij",
+          "genre": "Electronic"
+        }
+      ]
     },
     {
       "id": "2",

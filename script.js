@@ -44,7 +44,7 @@ function showApplication(userData) {
   if (songs.length === 0) {
     let noSongNotification = document.createElement("p");
     noSongNotification.textContent =
-      "There are no songs here yet, try adding some!";
+      "There are no songs here yet, try adding some";
     listSongs.appendChild(noSongNotification);
   } else {
     for (let song of songs) {
@@ -114,12 +114,17 @@ async function getFullData() {
 function getSongCard(song, userData) {
   return `
       <div class="card mb-3" id="song-${song.id}">
-          <div class="card-body">
-              <h5 class="card-title">${song.title}</h5>
-              <p class="card-text">
-                  <strong>Artist:</strong> ${song.artist}<br>
-                  <strong>Genre:</strong> ${song.genre}
-              </p>
+          <div class="card-body d-flex justify-content-between align-items-center">
+              <div class="d-flex align-items-center flex-grow-1">
+                  <button type="button" class="btn btn-light play-btn">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
+                          <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm3.5 8a.5.5 0 0 0-1 0v.646L6.768 6.414a.5.5 0 0 0-.768.42v2.346a.5.5 0 0 0 .768.42l3.732-2.232V8z"/>
+                      </svg>
+                  </button>
+                  <p class="card-text mb-0 ml-2 text-center w-100">
+                      <strong>${song.artist} - ${song.title}</strong>
+                  </p>
+              </div>
               <div id="edit-form-${song.id}" class="d-none">
                   <div class="mb-3">
                       <input type="text" class="form-control" id="edit-title-${song.id}" value="${song.title}" placeholder="Title">
@@ -139,12 +144,17 @@ function getSongCard(song, userData) {
                   <button type="button" class="btn btn-success btn-sm save-btn">Save</button>
                   <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit('${song.id}')">Cancel</button>
               </div>
-              <button type="button" class="btn btn-primary btn-sm edit-btn" data-song-id="${song.id}">Edit</button>
-              <button type="button" class="btn btn-danger btn-sm delete-btn" data-song-id="${song.id}">Delete</button>
+              <div class="d-flex">
+                  <div class="btn-group" role="group">
+                      <button type="button" class="btn btn-primary btn-sm edit-btn" data-song-id="${song.id}">Edit</button>
+                      <button type="button" class="btn btn-danger btn-sm delete-btn" data-song-id="${song.id}">Delete</button>
+                  </div>
+              </div>
           </div>
       </div>
   `;
 }
+
 
  
 
@@ -262,7 +272,7 @@ async function deleteSong(songId, userData) {
   if (userData.songs.length === 0) {
     let noSongNotification = document.createElement("p");
     noSongNotification.textContent =
-      "There are no songs here yet, try adding some!";
+      "There are no songs here yet, try adding some";
     const listSongs = document.querySelector("#list-songs");
     listSongs.appendChild(noSongNotification);
   }
