@@ -141,7 +141,7 @@ function getSongCard(song, userData) {
                           <option value="Electronic" ${song.genre === 'Electronic' ? 'selected' : ''}>Electronic</option>
                       </select>
                   </div>
-                  <button type="button" class="btn btn-success btn-sm save-btn">Save</button>
+                  <button type="button" class="btn btn-success btn-sm save-btn" data-song-id="${song.id}">Save</button>
                   <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit('${song.id}')">Cancel</button>
               </div>
               <div class="d-flex">
@@ -318,8 +318,8 @@ function editSong(songId, userData) {
   }
 }
 
-function saveSong(songId, userData) {
-  const songIndex = userData.songs.findIndex((song) => song.id === songId);
+async function saveSong(songId, userData) {
+  const songIndex = userData.songs.findIndex((song) => song.id == songId);
 
   if (songIndex !== -1) {
     const title = document.querySelector(`#edit-title-${songId}`).value;
@@ -330,16 +330,13 @@ function saveSong(songId, userData) {
     userData.songs[songIndex].artist = artist;
     userData.songs[songIndex].genre = genre;
 
-    updateUserData(userData);
+    await updateUserData(userData);
 
     const card = document.querySelector(`#song-${songId}`);
-    card.querySelector(".card-title").textContent = title;
     card.querySelector(".card-text").innerHTML = `
-        <strong>Artist:</strong> ${artist}<br>
-        <strong>Genre:</strong> ${genre}
+        <strong> ${artist} - </strong> 
+        <strong> ${title}</strong>
     `;
-
-    // Hide the edit form
     toggleEditForm(songId);
   }
 }
@@ -352,20 +349,17 @@ function magicWithButtons(userData) {
       const songId = event.target.dataset.songId;
       deleteSong(songId, userData);
     }
-  });
 
-  listSongs.addEventListener("click", (event) => {
     if (event.target.classList.contains("edit-btn")) {
       const songId = event.target.dataset.songId;
       editSong(songId, userData);
     }
-  });
 
-  listSongs.addEventListener("click", (event) => {
     if (event.target.classList.contains("save-btn")) {
-       const songId = event.target.dataset.songId;
-       // Assuming userData is available in this scope
-       saveSong(songId, userData);
+      const songId = event.target.getAttribute('data-song-id');
+      saveSong(songId, userData);
     }
-   });
+    
+    
+  });
 }
