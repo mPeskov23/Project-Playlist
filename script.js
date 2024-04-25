@@ -150,14 +150,15 @@ function getSongCard(song, userData) {
                           }>Electronic</option>
                       </select>
                   </div>
-                  <button type="button" class="btn btn-success btn-sm" onclick="saveSong('${
-                    song.id
-                  }', userData)">Save</button>
+                  <button type="button" class="btn btn-success btn-sm save-btn">Save</button>
                   <button type="button" class="btn btn-secondary btn-sm" onclick="cancelEdit('${
                     song.id
                   }')">Cancel</button>
               </div>
-              <button type="button" class="btn btn-primary btn-sm" edit-btn>Edit</button>
+              <button type="button" class="btn btn-primary btn-sm edit-btn" data-song-id="${
+                song.id
+              }">Edit</button>
+
 
               <button type="button" class="btn btn-danger btn-sm delete-btn" data-song-id="${
                 song.id
@@ -269,7 +270,6 @@ function checkLoginAvailability(login) {
 }
 
 async function deleteSong(songId, userData) {
-
   userData.songs = userData.songs.filter((song) => song.id !== songId);
 
   await fetch(`http://localhost:3000/users/${userData.id}`, {
@@ -294,7 +294,6 @@ function toggleEditForm(songId) {
   editForm.classList.toggle("d-none");
 }
 
-
 function cancelEdit(songId) {
   toggleEditForm(songId);
 }
@@ -309,7 +308,6 @@ async function updateUserData(userData) {
     if (!response.ok) {
       throw new Error("Failed to update user data");
     }
-
   } catch (error) {
     console.error("Error in updateUserData:", error);
   }
@@ -357,27 +355,28 @@ function saveSong(songId, userData) {
   }
 }
 
-function magicWithButtons(userData){
-  const deleteButtons = document.querySelectorAll(".delete-btn");
-  deleteButtons.forEach((button) => {
-    button.removeEventListener("click", (event) => {
-      const songId = button.dataset.songId;
+function magicWithButtons(userData) {
+  const listSongs = document.querySelector("#list-songs");
+
+  listSongs.addEventListener("click", (event) => {
+    if (event.target.classList.contains("delete-btn")) {
+      const songId = event.target.dataset.songId;
       deleteSong(songId, userData);
-    });
-    button.addEventListener("click", (event) => {
-      const songId = button.dataset.songId;
-      deleteSong(songId, userData);
-    });
+    }
   });
-  const editButtons = document.querySelectorAll(".edit-btn");
-  editButtons.forEach((button) => {
-    button.removeEventListener("click", (event) => {
-      const songId = button.dataset.songId;
+
+  listSongs.addEventListener("click", (event) => {
+    if (event.target.classList.contains("edit-btn")) {
+      const songId = event.target.dataset.songId;
       editSong(songId, userData);
-    });
-    button.addEventListener("click", (event) => {
-      const songId = button.dataset.songId;
-      editSong(songId, userData);
-    });
+    }
   });
+
+  listSongs.addEventListener("click", (event) => {
+    if (event.target.classList.contains("save-btn")) {
+       const songId = event.target.dataset.songId;
+       // Assuming userData is available in this scope
+       saveSong(songId, userData);
+    }
+   });
 }

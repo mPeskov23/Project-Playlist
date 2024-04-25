@@ -4,7 +4,14 @@
       "id": "1",
       "username": "admin",
       "password": "admin",
-      "songs": []
+      "songs": [
+        {
+          "id": "1",
+          "title": "ouoij",
+          "artist": "333",
+          "genre": "Jazz"
+        }
+      ]
     },
     {
       "id": "2",
