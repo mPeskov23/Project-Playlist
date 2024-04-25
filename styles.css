@@ -82,8 +82,3 @@ label {
     height: auto;
     overflow: hidden;
 }
-
-#list-songs {
-    min-height: 100vh;
-    overflow-y: auto;
-}
